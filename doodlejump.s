@@ -1,9 +1,9 @@
 .data
 displayAddress:	.word	0x10008000
-dot: .word 29, 15, 30, 15 #left of square dude (y, x, y, x)
-p1: .word 31, 11 #top left y then x coordinates of the platforms
-p2: .word 20, 1
-p3: .word 10, 21
+dot: .word 28, 15, 29, 15 #left of square dude (y, x, y, x)
+p1: .word 30, 11 #top left y then x coordinates of the platforms
+p2: .word 20, 2
+p3: .word 10, 20
 total: .word 1024 #number of pixels to paing bg
 red: .word 0xff0000
 beige: .word 0xb58b1d
@@ -12,6 +12,8 @@ keyboardStroke: .word 0xffff0000
 keyboardLetter: .word 0xffff0004
 promptA: .asciiz "J was pressed"
 newLine: .asciiz "\n"
+sequence: .word 0, -5, -3, -2, -1, -1, 1, 1, 2, 3, 5, 5, 5, 5, 5
+count: .word 0
 	
 	
 .text
@@ -58,12 +60,96 @@ START:
 	add $t2, $t2, 8 #move to second (y, x)
 	jal STEP
 	jal PAINT #bottom half
+
 	
 
 
 KEY:
 NONE:
-WHILE:	
+WHILE:	#find sequence location
+	la $t1, sequence
+	lw $t2, count
+	sll $t4, $t2, 2
+	add $t1, $t1, $t4
+	lw $t3, ($t1)
+	#update count
+	addi $t2, $t2, 1
+	sw $t2, count
+	
+	#redraw dot
+	la $t1, dot
+	lw $t2, 0($t1)
+	add $a2, $t2, $t3
+	sw $a2, 0($t1) #$a2 stores new height
+	lw $a3, 4($t1) #$a3 stores left
+	lw $t2, 8($t1)
+	add $t2, $t2, $t3
+	sw $t2, 8($t1)
+	
+	#check if dot is on platform
+	
+	la $t1, p1
+	lw $t3, 0($t1)
+	add $t4, $a2, 2
+	bne $t4, $t3, check2
+	lw $t3, 4($t1)
+	sub $t4, $a3, $t3
+	blez $t4, check2
+	addi $t4, $t4, 8
+	sub $t4, $a3, $t4
+	blez $t4, check2
+	li $t5, 1
+	sw $t5, count
+	check2:
+	la $t1, p2
+	lw $t3, 0($t1)
+	add $t4, $a2, 2
+	bne $t4, $t3, check3
+	lw $t3, 4($t1)
+	sub $t4, $a3, $t3
+	blez $t4, check3
+	addi $t4, $t4, 8
+	sub $t4, $a3, $t4
+	blez $t4, check3
+	li $t5, 1
+	sw $t5, count
+	check3:
+	la $t1, p3
+	lw $t3, 0($t1)
+	add $t4, $a2, 2
+	bne $t4, $t3, toohigh
+	lw $t3, 4($t1)
+	sub $t4, $a3, $t3
+	blez $t4, toohigh
+	addi $t4, $t4, 8
+	sub $t4, $a3, $t4
+	blez $t4, toohigh
+	li $t5, 1
+	sw $t5, count
+	toohigh:
+	subi $t7, $a2, 5
+	bgez $t7, toolow
+	uploop:
+	beqz $t7, done
+	addi $t7, $t7, 1
+	jal UP
+	li $v0, 1
+	lw $a0, count
+	syscall
+	j uploop
+	toolow:
+	la $t1, p1
+	lw $t3, 0($t1)
+	bgt $t3, $a2, done
+	la $t1, p2
+	lw $t3, 0($t1)
+	bgt $t3, $a2, done
+	la $t1, p3
+	lw $t3, 0($t1)
+	bgt $t3, $a2, done
+	li $v0, 10 # terminate the program if dead for now
+	syscall
+	done:
 	
 	lui $a0, 0xffff #If the value at this address is non zero, currently a button is being pressed
 	lw $t5, 0($a0)
@@ -195,9 +281,7 @@ UP:
     sw $t3, 0($t2)
     li $v0, 42
     li $a1, 22
-    syscall
-    li $v0, 1   # 1 is the system call code to show an int number
-    syscall     # as I said your generated number is at $a0, so it will be printed
+    syscall   
     sw $a0, 4($t2)
     
     new2:
@@ -210,9 +294,7 @@ UP:
     sw $t3, 0($t2)
     li $v0, 42
     li $a1, 22
-    syscall
-    li $v0, 1   # 1 is the system call code to show an int number
-    syscall     # as I said your generated number is at $a0, so it will be printed
+    syscall    
     sw $a0, 4($t2)
     
     new3:
@@ -225,9 +307,7 @@ UP:
     sw $t3, 0($t2)
     li $v0, 42
     li $a1, 22
-    syscall
-    li $v0, 1   # 1 is the system call code to show an int number
-    syscall     # as I said your generated number is at $a0, so it will be printed
+    syscall   
     sw $a0, 4($t2)
     
     moveDude:
@@ -239,6 +319,7 @@ UP:
     addi $t3, $t3, 1
     sw $t3, 8($t2)
     jr $ra
+    
 EXIT:
 	
 	
@@ -262,6 +343,7 @@ STEP:
 	add $t0, $t0, $t4 #add prev
 	#ready to paint
 	jr $ra
+
 	
 		
 	
