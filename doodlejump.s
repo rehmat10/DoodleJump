@@ -144,7 +144,7 @@ REFRESH:
 
 MOVE:
 	lui $a0, 0xffff
-	lw $v0, 4($a0) #Location of which button
+	lw $v0, 4($a0) #Location of which button is being pressed
 	addi $a0, $v0, 0
 
 	#Hexidecimal for 106 and 107 (ASCII of j and k)
