@@ -1,9 +1,10 @@
 .data
 displayAddress:	.word	0x10008000
-dot: .word 28, 15, 29, 15 #left of square dude (y, x, y, x)
-p1: .word 30, 11 #top left y then x coordinates of the platforms
-p2: .word 20, 2
-p3: .word 10, 20
+dot: .word 29, 15, 30, 15 #left of square dude (y, x, y, x)
+p1: .word 31, 11 #top left y then x coordinates of the platforms
+p2: .word 23, 2
+p3: .word 15, 9
+p4: .word 7, 11
 total: .word 1024 #number of pixels to paing bg
 red: .word 0xff0000
 beige: .word 0xb58b1d
@@ -14,6 +15,7 @@ promptA: .asciiz "J was pressed"
 newLine: .asciiz "\n"
 sequence: .word 0, -5, -3, -2, -1, -1, 1, 1, 2, 3, 5, 5, 5, 5, 5
 count: .word 0
+platformCount: .word 0
 	
 	
 .text
@@ -43,6 +45,12 @@ START:
 	li $a1, 0
 	li $a2, 10
 	la $t2, p3
+	jal STEP
+	jal PAINT
+	lw $t0, displayAddress
+	li $a1, 0
+	li $a2, 10
+	la $t2, p4
 	jal STEP
 	jal PAINT
 	
@@ -93,23 +101,25 @@ WHILE:	#find sequence location
 	add $t4, $a2, 2
 	bne $t4, $t3, check2
 	lw $t3, 4($t1)
+	subi $t3, $t3, 1
 	sub $t4, $a3, $t3
 	blez $t4, check2
-	addi $t4, $t4, 8
-	sub $t4, $a3, $t4
+	addi $t4, $t3, 10
+	sub $t4, $t4, $a3
 	blez $t4, check2
 	li $t5, 1
 	sw $t5, count
 	check2:
 	la $t1, p2
 	lw $t3, 0($t1)
+	subi $t3, $t3, 1
 	add $t4, $a2, 2
 	bne $t4, $t3, check3
 	lw $t3, 4($t1)
 	sub $t4, $a3, $t3
 	blez $t4, check3
-	addi $t4, $t4, 8
-	sub $t4, $a3, $t4
+	addi $t4, $t3, 10
+	sub $t4, $t4, $a3
 	blez $t4, check3
 	li $t5, 1
 	sw $t5, count
@@ -117,12 +127,27 @@ WHILE:	#find sequence location
 	la $t1, p3
 	lw $t3, 0($t1)
 	add $t4, $a2, 2
+	bne $t4, $t3, check4
+	lw $t3, 4($t1)
+	subi $t3, $t3, 1
+	sub $t4, $a3, $t3
+	blez $t4, check4
+	addi $t4, $t3, 10
+	sub $t4, $t4, $a3
+	blez $t4, check4
+	li $t5, 1
+	sw $t5, count
+	check4:
+	la $t1, p4
+	lw $t3, 0($t1)
+	add $t4, $a2, 2
 	bne $t4, $t3, toohigh
 	lw $t3, 4($t1)
+	subi $t3, $t3, 1
 	sub $t4, $a3, $t3
 	blez $t4, toohigh
-	addi $t4, $t4, 8
-	sub $t4, $a3, $t4
+	addi $t4, $t3, 10
+	sub $t4, $t4, $a3
 	blez $t4, toohigh
 	li $t5, 1
 	sw $t5, count
@@ -202,6 +227,12 @@ REFRESH:
 	li $a1, 0
 	li $a2, 10
 	la $t2, p3
+	jal STEP
+	jal PAINT
+	lw $t0, displayAddress
+	li $a1, 0
+	li $a2, 10
+	la $t2, p4
 	jal STEP
 	jal PAINT
 	
@@ -299,6 +330,19 @@ UP:
     
     new3:
     la $t2, p3
+    lw $t3, 0($t2)
+    addi $t3, $t3, 1
+    sw $t3, 0($t2)
+    bne $t1, $t3, new4
+    li $t3, 0
+    sw $t3, 0($t2)
+    li $v0, 42
+    li $a1, 22
+    syscall   
+    sw $a0, 4($t2)
+    
+    new4:
+    la $t2, p4
     lw $t3, 0($t2)
     addi $t3, $t3, 1
     sw $t3, 0($t2)
