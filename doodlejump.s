@@ -65,7 +65,7 @@ KEY:
 NONE:
 WHILE:	
 	
-	lui $a0, 0xffff
+	lui $a0, 0xffff #If the value at this address is non zero, currently a button is being pressed
 	lw $t5, 0($a0)
 	
 	bnez $t5, MOVE
@@ -144,10 +144,11 @@ REFRESH:
 
 MOVE:
 	lui $a0, 0xffff
-	lw $v0, 4($a0)
+	lw $v0, 4($a0) #Location of which button
 	addi $a0, $v0, 0
 
-	li $t7, 0x0000006a
+	#Hexidecimal for 106 and 107 (ASCII of j and k)
+	li $t7, 0x0000006a 
 	li $t8, 0x0000006b
 
 	beq $a0, $t7, LEFT
