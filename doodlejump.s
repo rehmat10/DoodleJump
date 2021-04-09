@@ -23,6 +23,27 @@ highestPlatform: .word 99
 	
 .text
 START:
+    	la $t2, p2
+    	li $a1, 20 
+    	li $v0, 42
+    	syscall 
+    	addi $a0, $a0, 2
+    	sw $a0, 4($t2)
+    	
+    	la $t2, p3
+    	li $a1, 20 
+    	li $v0, 42
+    	syscall 
+    	addi $a0, $a0, 2
+    	sw $a0, 4($t2)
+    	
+    	la $t2, p4
+    	li $a1, 20 
+    	li $v0, 42
+    	syscall 
+    	addi $a0, $a0, 2
+    	sw $a0, 4($t2)
+    	begin:
 	#paint bg
 	lw $t0, displayAddress #sets address fof frame
 	lw $t1, blue #sets color
@@ -267,7 +288,7 @@ WHILE:	#find sequence location
 	#syscall
 	
 	
-	j START
+	j begin
 	
 	
 	
@@ -379,11 +400,12 @@ UP:
     bne $t1, $t3, new2
     li $t3, 0
     sw $t3, 0($t2)
-    li $a1, 32
+    li $a1, 28
     lw $t5, platformLength
     sub $a1, $a1, $t5 
     li $v0, 42
-    syscall 
+    syscall
+    addi $a0, $a0, 2 
     sw $a0, 4($t2)
     
     new2:
@@ -394,11 +416,12 @@ UP:
     bne $t1, $t3, new3
     li $t3, 0
     sw $t3, 0($t2)
-    li $a1, 32
+    li $a1, 28
     lw $t5, platformLength
     sub $a1, $a1, $t5 
     li $v0, 42
-    syscall 
+    syscall
+    addi $a0, $a0, 2 
     sw $a0, 4($t2)
     
     new3:
@@ -409,11 +432,12 @@ UP:
     bne $t1, $t3, new4
     li $t3, 0
     sw $t3, 0($t2)
-    li $a1, 32
+    li $a1, 28
     lw $t5, platformLength
-    sub $a1, $a1, $t5  
+    sub $a1, $a1, $t5 
     li $v0, 42
-    syscall 
+    syscall
+    addi $a0, $a0, 2 
     sw $a0, 4($t2)
     
     new4:
@@ -424,11 +448,12 @@ UP:
     bne $t1, $t3, moveDude
     li $t3, 0
     sw $t3, 0($t2)
-    li $a1, 32
+    li $a1, 28
     lw $t5, platformLength
     sub $a1, $a1, $t5 
     li $v0, 42
-    syscall 
+    syscall
+    addi $a0, $a0, 2 
     sw $a0, 4($t2)
     
     moveDude:
