@@ -112,10 +112,10 @@ WHILE:	#find sequence location
 	check2:
 	la $t1, p2
 	lw $t3, 0($t1)
-	subi $t3, $t3, 1
 	add $t4, $a2, 2
 	bne $t4, $t3, check3
 	lw $t3, 4($t1)
+	subi $t3, $t3, 1
 	sub $t4, $a3, $t3
 	blez $t4, check3
 	addi $t4, $t3, 10
@@ -387,9 +387,3 @@ STEP:
 	add $t0, $t0, $t4 #add prev
 	#ready to paint
 	jr $ra
-
-	
-		
-	
-	
-	
