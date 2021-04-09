@@ -68,6 +68,10 @@ START:
 	add $t2, $t2, 8 #move to second (y, x)
 	jal STEP
 	jal PAINT #bottom half
+	
+	li $v0, 32
+	la $a0, 200
+	syscall
 
 	
 
@@ -172,8 +176,9 @@ WHILE:	#find sequence location
 	la $t1, p3
 	lw $t3, 0($t1)
 	bgt $t3, $a2, done
-	li $v0, 10 # terminate the program if dead for now
-	syscall
+	
+	j REFRESH
+	
 	done:
 	
 	lui $a0, 0xffff #If the value at this address is non zero, currently a button is being pressed
@@ -195,7 +200,7 @@ WHILE:	#find sequence location
 	syscall
 	
 	
-	j REFRESH
+	j START
 	
 	
 	
@@ -251,11 +256,10 @@ REFRESH:
 	jal STEP
 	jal PAINT #bottom half
 	
-	li $v0, 32
-	la $a0, 200
-	syscall
 	
-	j WHILE
+	
+	li $v0, 10 # terminate the program if dead for now
+	syscall
 
 	
 
@@ -277,12 +281,12 @@ MOVE:
 LEFT:
     la $t2, dot
     lw $t3, 4($t2)
-    subi $t3, $t3, 1
+    subi $t3, $t3, 2
     andi $t3, $t3, 31
     sw $t3, 4($t2)
     la $t2, dot
     lw $t3, 12($t2)
-    subi $t3, $t3, 1
+    subi $t3, $t3, 2
     andi $t3, $t3, 31
     sw $t3, 12($t2)
     jr $ra
@@ -290,12 +294,12 @@ LEFT:
 RIGHT:
     la $t2, dot
     lw $t3, 4($t2)
-    addi $t3, $t3, 1
+    addi $t3, $t3, 2
     andi $t3, $t3, 31
     sw $t3, 4($t2)
     la $t2, dot
     lw $t3, 12($t2)
-    addi $t3, $t3, 1
+    addi $t3, $t3, 2
     andi $t3, $t3, 31
     sw $t3, 12($t2)
     jr $ra
