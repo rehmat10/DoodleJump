@@ -3,7 +3,7 @@ displayAddress:	.word	0x10008000
 dot: .word 29, 15, 30, 15 #left of square dude (y, x, y, x)
 p1: .word 31, 11 #top left y then x coordinates of the platforms
 p2: .word 23, 2
-p3: .word 15, 9
+p3: .word 15, 20
 p4: .word 7, 11
 total: .word 1024 #number of pixels to paing bg
 red: .word 0xff0000
@@ -13,7 +13,7 @@ keyboardStroke: .word 0xffff0000
 keyboardLetter: .word 0xffff0004
 promptA: .asciiz "J was pressed"
 newLine: .asciiz "\n"
-sequence: .word 0, -5, -3, -2, -1, -1, 1, 1, 2, 3, 5, 5, 5, 5, 5
+sequence: .word 0, -4, -2, -2, -1, -1, 1, 1, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4
 count: .word 0
 platformCount: .word 0
 	
@@ -101,10 +101,10 @@ WHILE:	#find sequence location
 	add $t4, $a2, 2
 	bne $t4, $t3, check2
 	lw $t3, 4($t1)
-	subi $t3, $t3, 1
+	subi $t3, $t3, 2
 	sub $t4, $a3, $t3
 	blez $t4, check2
-	addi $t4, $t3, 10
+	addi $t4, $t3, 12
 	sub $t4, $t4, $a3
 	blez $t4, check2
 	li $t5, 1
@@ -115,10 +115,10 @@ WHILE:	#find sequence location
 	add $t4, $a2, 2
 	bne $t4, $t3, check3
 	lw $t3, 4($t1)
-	subi $t3, $t3, 1
+	subi $t3, $t3, 2
 	sub $t4, $a3, $t3
 	blez $t4, check3
-	addi $t4, $t3, 10
+	addi $t4, $t3, 12
 	sub $t4, $t4, $a3
 	blez $t4, check3
 	li $t5, 1
@@ -129,10 +129,10 @@ WHILE:	#find sequence location
 	add $t4, $a2, 2
 	bne $t4, $t3, check4
 	lw $t3, 4($t1)
-	subi $t3, $t3, 1
+	subi $t3, $t3, 2
 	sub $t4, $a3, $t3
 	blez $t4, check4
-	addi $t4, $t3, 10
+	addi $t4, $t3, 12
 	sub $t4, $t4, $a3
 	blez $t4, check4
 	li $t5, 1
@@ -143,10 +143,10 @@ WHILE:	#find sequence location
 	add $t4, $a2, 2
 	bne $t4, $t3, toohigh
 	lw $t3, 4($t1)
-	subi $t3, $t3, 1
+	subi $t3, $t3, 2
 	sub $t4, $a3, $t3
 	blez $t4, toohigh
-	addi $t4, $t3, 10
+	addi $t4, $t3, 12
 	sub $t4, $t4, $a3
 	blez $t4, toohigh
 	li $t5, 1
