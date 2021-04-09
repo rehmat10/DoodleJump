@@ -197,15 +197,24 @@ WHILE:	#find sequence location
 	jal UP
 	j uploop
 	toolow:
-	la $t1, p1
-	lw $t3, 0($t1)
+	li $t3, 31
 	bgt $t3, $a2, done
-	la $t1, p2
-	lw $t3, 0($t1)
-	bgt $t3, $a2, done
-	la $t1, p3
-	lw $t3, 0($t1)
-	bgt $t3, $a2, done
+	#la $t1, p1
+	#lw $t3, 0($t1)
+	#addi $t3, $t3, 1
+	#bgt $t3, $a2, done
+	#la $t1, p2
+	#lw $t3, 0($t1)
+	#addi $t3, $t3, 1
+	#bgt $t3, $a2, done
+	#la $t1, p3
+	#lw $t3, 0($t1)
+	#addi $t3, $t3, 1
+	#bgt $t3, $a2, done
+	#la $t1, p4
+	#lw $t3, 0($t1)
+	#addi $t3, $t3, 1
+	#bgt $t3, $a2, done
 	lw $t5, highestPlatform
 	li $t5, 99
 	sw $t5, highestPlatform
@@ -251,11 +260,11 @@ WHILE:	#find sequence location
 	li $v0, 1
 	lw $t0, platformCount
 	add $a0, $t0, $zero
-	syscall
+	#syscall
 	
 	li $v0, 4
 	la $a0, newLine
-	syscall
+	#syscall
 	
 	
 	j START
@@ -303,8 +312,11 @@ REFRESH:
 	#platformCount
 	li $t2, 0
 	sw $t2, platformCount
+	#platformLength
+	li $t2, 10
+	sw $t2, platformLength
 	li $v0, 32
-	la $a0, 500
+	la $a0, 1000
 	syscall
 	
 
@@ -367,9 +379,11 @@ UP:
     bne $t1, $t3, new2
     li $t3, 0
     sw $t3, 0($t2)
+    li $a1, 32
+    lw $t5, platformLength
+    sub $a1, $a1, $t5 
     li $v0, 42
-    li $a1, 22
-    syscall   
+    syscall 
     sw $a0, 4($t2)
     
     new2:
@@ -380,9 +394,11 @@ UP:
     bne $t1, $t3, new3
     li $t3, 0
     sw $t3, 0($t2)
+    li $a1, 32
+    lw $t5, platformLength
+    sub $a1, $a1, $t5 
     li $v0, 42
-    li $a1, 22
-    syscall    
+    syscall 
     sw $a0, 4($t2)
     
     new3:
@@ -393,9 +409,11 @@ UP:
     bne $t1, $t3, new4
     li $t3, 0
     sw $t3, 0($t2)
+    li $a1, 32
+    lw $t5, platformLength
+    sub $a1, $a1, $t5  
     li $v0, 42
-    li $a1, 22
-    syscall   
+    syscall 
     sw $a0, 4($t2)
     
     new4:
@@ -406,9 +424,11 @@ UP:
     bne $t1, $t3, moveDude
     li $t3, 0
     sw $t3, 0($t2)
+    li $a1, 32
+    lw $t5, platformLength
+    sub $a1, $a1, $t5 
     li $v0, 42
-    li $a1, 22
-    syscall   
+    syscall 
     sw $a0, 4($t2)
     
     moveDude:
