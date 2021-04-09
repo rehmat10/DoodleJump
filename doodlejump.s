@@ -9,6 +9,7 @@ total: .word 1024 #number of pixels to paing bg
 red: .word 0xff0000
 beige: .word 0xb58b1d
 blue: .word 0x87ceff
+black: .word 0x000000
 keyboardStroke: .word 0xffff0000
 keyboardLetter: .word 0xffff0004
 promptA: .asciiz "J was pressed"
@@ -72,12 +73,6 @@ START:
 	li $v0, 32
 	la $a0, 200
 	syscall
-
-	
-
-
-KEY:
-NONE:
 WHILE:	#find sequence location
 	la $t1, sequence
 	lw $t2, count
@@ -156,15 +151,12 @@ WHILE:	#find sequence location
 	li $t5, 1
 	sw $t5, count
 	toohigh:
-	subi $t7, $a2, 5
-	bgez $t7, toolow
+	subi $t6, $a2, 5
+	bgez $t6, toolow
 	uploop:
-	beqz $t7, done
-	addi $t7, $t7, 1
+	beqz $t6, done
+	addi $t6, $t6, 1
 	jal UP
-	li $v0, 1
-	lw $a0, count
-	syscall
 	j uploop
 	toolow:
 	la $t1, p1
@@ -176,7 +168,6 @@ WHILE:	#find sequence location
 	la $t1, p3
 	lw $t3, 0($t1)
 	bgt $t3, $a2, done
-	
 	j REFRESH
 	
 	done:
@@ -193,11 +184,11 @@ WHILE:	#find sequence location
 	
 	li $v0, 1
 	add $a0, $t5, $zero
-	syscall
+	#syscall
 	
 	li $v0, 4
 	la $a0, newLine
-	syscall
+	#syscall
 	
 	
 	j START
@@ -207,59 +198,50 @@ WHILE:	#find sequence location
 	
 
 REFRESH:
-	#paint bg
 	lw $t0, displayAddress #sets address fof frame
-	lw $t1, blue #sets color
+	lw $t1, black #sets color
 	li $a1, 0 #i use $a1 and $a2 as counter for how many times paint should be done
 	lw $a2, total
 	jal PAINT
-	
-	#paint platforms
-	lw $t0, displayAddress
-	lw $t1, beige
-	li $a1, 0
-	li $a2, 10
-	la $t2, p1 #sets array for platform
-	jal STEP #STEP does math to find position for painting
-	jal PAINT 
-	lw $t0, displayAddress
-	li $a1, 0
-	li $a2, 10
-	la $t2, p2
-	jal STEP
-	jal PAINT
-	lw $t0, displayAddress
-	li $a1, 0
-	li $a2, 10
-	la $t2, p3
-	jal STEP
-	jal PAINT
-	lw $t0, displayAddress
-	li $a1, 0
-	li $a2, 10
-	la $t2, p4
-	jal STEP
-	jal PAINT
-	
-	#paint dude
-	lw $t0, displayAddress
-	lw $t1, red
-	li $a1, 0
-	li $a2, 2
-	la $t2, dot #use first (y, x)
-	jal STEP #treat dude as small platform 
-	jal PAINT #top half
-	lw $t0, displayAddress
-	li $a1, 0
-	li $a2, 2
-	add $t2, $t2, 8 #move to second (y, x)
-	jal STEP
-	jal PAINT #bottom half
-	
-	
-	
-	li $v0, 10 # terminate the program if dead for now
+	#dot
+	la $t1, dot
+	li $t2, 29
+	sw $t2, 0($t1)
+	li $t2, 15
+	sw $t2, 4($t1)
+	sw $t2, 12($t1)
+	li $t2, 30
+	sw $t2, 8($t1)
+	#p1
+	la $t1, p1
+	li $t2, 31
+	sw $t2, 0($t1)
+	li $t2, 11
+	sw $t2, 4($t1)
+	#p2
+	la $t1, p2
+	li $t2, 23
+	sw $t2, 0($t1)
+	#p3
+	la $t1, p3
+	li $t2, 15
+	sw $t2, 0($t1)
+	#p4
+	la $t1, p4
+	li $t2, 7
+	sw $t2, 0($t1)
+	#count
+	li $t2, 0
+	sw $t2, count
+	#platformCount
+	li $t2, 0
+	sw $t2, platformCount
+	li $v0, 32
+	la $a0, 500
 	syscall
+	
+
+	j START
 
 	
 
@@ -368,19 +350,17 @@ UP:
     sw $t3, 8($t2)
     jr $ra
     
-EXIT:
-	
-	
-	li $v0, 10 # terminate
-	syscall
+
 
 PAINT:
 	#this method does the actual painting for $a2-$a1 time in a continuous horizontal line
+	
 	sw $t1, ($t0)
 	addi $t0, $t0, 4
 	addi $a1, $a1, 1
 	bne $a1, $a2, PAINT
 	jr $ra
+
 STEP:
 	#this method does math needed to find location based on 32x32 naming system
 	lw $t3, 0($t2) #y
