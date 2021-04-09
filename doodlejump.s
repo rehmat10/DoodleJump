@@ -10,6 +10,7 @@ red: .word 0xff0000
 beige: .word 0xb58b1d
 blue: .word 0x87ceff
 black: .word 0x000000
+darkBlue: .word 0x0000ff
 keyboardStroke: .word 0xffff0000
 keyboardLetter: .word 0xffff0004
 promptA: .asciiz "J was pressed"
@@ -19,8 +20,9 @@ count: .word 0
 platformCount: .word 0
 platformLength: .word 10
 highestPlatform: .word 99
-	
-	
+digit1: 27, 4
+digit2: 27, 0
+
 .text
 START:
 	#paint bg
@@ -72,9 +74,1748 @@ START:
 	jal STEP
 	jal PAINT #bottom half
 	
+	la $a3, digit1
+	lw $t0, platformCount
+	
+	li $t2, 10
+	div $t0, $t0, $t2
+	
+	mfhi $a1
+
+	
+	
+	
+	li $t1, 1
+	beq $a1, $t1, Digit1One
+	
+	li $t1, 2
+	beq $a1, $t1, Digit1Two
+	
+	li $t1, 3
+	beq $a1, $t1, Digit1Three
+	
+	li $t1, 4
+	beq $a1, $t1, Digit1Four
+	
+	li $t1, 5
+	beq $a1, $t1, Digit1Five
+	
+	li $t1, 6
+	beq $a1, $t1, Digit1Six
+	
+	li $t1, 7
+	beq $a1, $t1, Digit1Seven
+	
+	li $t1, 8
+	beq $a1, $t1, Digit1Eight
+	
+	li $t1, 9
+	beq $a1, $t1, Digit1Nine
+	
+	Digit1Zero:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End
+	
+	Digit1One:
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End
+	
+	Digit1Two:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End
+	
+	Digit1Three:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	jal STEP
+	jal PAINT
+	
+	j End
+	
+	Digit1Four:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End
+	
+	Digit1Five:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End
+	
+	Digit1Six:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	subi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End
+	
+	Digit1Seven:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End
+	
+	Digit1Eight:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End
+	
+	Digit1Nine:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End
+	
+	End:
+	la $a3, digit2
+	lw $t0, platformCount
+	
+	li $t2, 10
+	div $t0, $t0, $t2
+	
+	div $t0, $t0, $t2
+	
+	mfhi $a1
+
+	
+	beqz $a1, Digit2Zero
+	
+	li $t1, 1
+	beq $a1, $t1, Digit2One
+	
+	li $t1, 2
+	beq $a1, $t1, Digit2Two
+	
+	li $t1, 3
+	beq $a1, $t1, Digit2Three
+	
+	li $t1, 4
+	beq $a1, $t1, Digit2Four
+	
+	li $t1, 5
+	beq $a1, $t1, Digit2Five
+	
+	li $t1, 6
+	beq $a1, $t1, Digit2Six
+	
+	li $t1, 7
+	beq $a1, $t1, Digit2Seven
+	
+	li $t1, 8
+	beq $a1, $t1, Digit2Eight
+	
+	li $t1, 9
+	beq $a1, $t1, Digit2Nine
+	
+	Digit2Zero:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End1
+	
+	Digit2One:
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End1
+	
+	Digit2Two:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End1
+	
+	Digit2Three:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	jal STEP
+	jal PAINT
+	
+	j End1
+	
+	Digit2Four:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End1
+	
+	Digit2Five:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End1
+	
+	Digit2Six:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	subi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End1
+	
+	Digit2Seven:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End1
+	
+	Digit2Eight:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End1
+	
+	Digit2Nine:
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	
+
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)	
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	addi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 1
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	la $t2, ($a3)
+	lw $t0, 0($t2)
+	addi $t0, $t0, 1
+	sw $t0, 0($t2)
+	la $t2, ($a3)
+	lw $t0, 4($t2)
+	subi $t0, $t0, 2
+	sw $t0, 4($t2)
+	
+	lw $t0, displayAddress
+	lw $t1, darkBlue
+	li $a1, 0
+	li $a2, 3
+	la $t2, ($a3)
+	jal STEP
+	jal PAINT
+	
+	j End1
+	
+	End1:
+	
+	la $t2, digit1
+	li $t0, 27
+	sw $t0, 0($t2)
+	li $t0, 4
+	sw $t0, 4($t2)
+	
+	la $t2, digit2
+	li $t0, 27
+	sw $t0, 0($t2)
+	li $t0, 0
+	sw $t0, 4($t2)
+	
 	li $v0, 32
 	la $a0, 200
 	syscall
+	
+
+
+	
 WHILE:	#find sequence location
 	la $t1, sequence
 	lw $t2, count
@@ -246,6 +1987,18 @@ WHILE:	#find sequence location
 	ble $t0, $t1, after
 	li $t2, 5
 	sw $t2, platformLength
+	li $t1, 60
+	ble $t0, $t1, after
+	li $t2, 4
+	sw $t2, platformLength
+	li $t1, 70
+	ble $t0, $t1, after
+	li $t2, 3
+	sw $t2, platformLength
+	li $t1, 80
+	ble $t0, $t1, after
+	li $t2, 1
+	sw $t2, platformLength
 	
 	after:
 	
@@ -260,11 +2013,11 @@ WHILE:	#find sequence location
 	li $v0, 1
 	lw $t0, platformCount
 	add $a0, $t0, $zero
-	#syscall
+	syscall
 	
 	li $v0, 4
 	la $a0, newLine
-	#syscall
+	syscall
 	
 	
 	j START
