@@ -17,6 +17,8 @@ newLine: .asciiz "\n"
 sequence: .word 0, -4, -2, -2, -1, -1, 1, 1, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4
 count: .word 0
 platformCount: .word 0
+platformLength: .word 10
+highestPlatform: .word 99
 	
 	
 .text
@@ -32,25 +34,25 @@ START:
 	lw $t0, displayAddress
 	lw $t1, beige
 	li $a1, 0
-	li $a2, 10
+	lw $a2, platformLength
 	la $t2, p1 #sets array for platform
 	jal STEP #STEP does math to find position for painting
 	jal PAINT 
 	lw $t0, displayAddress
 	li $a1, 0
-	li $a2, 10
+	lw $a2, platformLength
 	la $t2, p2
 	jal STEP
 	jal PAINT
 	lw $t0, displayAddress
 	li $a1, 0
-	li $a2, 10
+	lw $a2, platformLength
 	la $t2, p3
 	jal STEP
 	jal PAINT
 	lw $t0, displayAddress
 	li $a1, 0
-	li $a2, 10
+	lw $a2, platformLength
 	la $t2, p4
 	jal STEP
 	jal PAINT
@@ -103,11 +105,20 @@ WHILE:	#find sequence location
 	subi $t3, $t3, 2
 	sub $t4, $a3, $t3
 	blez $t4, check2
-	addi $t4, $t3, 12
+	lw $t5, platformLength
+	addi $t5, $t5, 2 
+	add $t4, $t3, $t5
 	sub $t4, $t4, $a3
 	blez $t4, check2
 	li $t5, 1
 	sw $t5, count
+	lw $t3, 0($t1)
+	lw $t4, highestPlatform
+	bge $t3, $t4, check2
+	sw $t3, highestPlatform
+	lw $t4, platformCount
+	addi $t4, $t4, 1
+	sw $t4, platformCount
 	check2:
 	la $t1, p2
 	lw $t3, 0($t1)
@@ -117,11 +128,20 @@ WHILE:	#find sequence location
 	subi $t3, $t3, 2
 	sub $t4, $a3, $t3
 	blez $t4, check3
-	addi $t4, $t3, 12
+	lw $t5, platformLength
+	addi $t5, $t5, 2
+	add $t4, $t3, $t5
 	sub $t4, $t4, $a3
 	blez $t4, check3
 	li $t5, 1
 	sw $t5, count
+	lw $t3, 0($t1)
+	lw $t4, highestPlatform
+	bge $t3, $t4, check3
+	sw $t3, highestPlatform
+	lw $t4, platformCount
+	addi $t4, $t4, 1
+	sw $t4, platformCount
 	check3:
 	la $t1, p3
 	lw $t3, 0($t1)
@@ -131,11 +151,20 @@ WHILE:	#find sequence location
 	subi $t3, $t3, 2
 	sub $t4, $a3, $t3
 	blez $t4, check4
-	addi $t4, $t3, 12
+	lw $t5, platformLength
+	addi $t5, $t5, 2
+	add $t4, $t3, $t5
 	sub $t4, $t4, $a3
 	blez $t4, check4
 	li $t5, 1
 	sw $t5, count
+	lw $t3, 0($t1)
+	lw $t4, highestPlatform
+	bge $t3, $t4, check4
+	sw $t3, highestPlatform
+	lw $t4, platformCount
+	addi $t4, $t4, 1
+	sw $t4, platformCount
 	check4:
 	la $t1, p4
 	lw $t3, 0($t1)
@@ -145,11 +174,20 @@ WHILE:	#find sequence location
 	subi $t3, $t3, 2
 	sub $t4, $a3, $t3
 	blez $t4, toohigh
-	addi $t4, $t3, 12
+	lw $t5, platformLength
+	addi $t5, $t5, 2
+	add $t4, $t3, $t5
 	sub $t4, $t4, $a3
 	blez $t4, toohigh
 	li $t5, 1
 	sw $t5, count
+	lw $t3, 0($t1)
+	lw $t4, highestPlatform
+	bge $t3, $t4, toohigh
+	sw $t3, highestPlatform
+	lw $t4, platformCount
+	addi $t4, $t4, 1
+	sw $t4, platformCount
 	toohigh:
 	subi $t6, $a2, 5
 	bgez $t6, toolow
@@ -168,9 +206,39 @@ WHILE:	#find sequence location
 	la $t1, p3
 	lw $t3, 0($t1)
 	bgt $t3, $a2, done
+	lw $t5, highestPlatform
+	li $t5, 99
+	sw $t5, highestPlatform
+	lw $t5, platformLength
+	li $t5, 10
+	sw $t5, platformLength
 	j REFRESH
 	
 	done:
+	
+	lw $t0, platformCount
+	li $t1, 10
+	ble $t0, $t1, after
+	li $t2, 9
+	sw $t2, platformLength
+	li $t1, 20
+	ble $t0, $t1, after
+	li $t2, 8
+	sw $t2, platformLength
+	li $t1, 30
+	ble $t0, $t1, after
+	li $t2, 7
+	sw $t2, platformLength
+	li $t1, 40
+	ble $t0, $t1, after
+	li $t2, 6
+	sw $t2, platformLength
+	li $t1, 50
+	ble $t0, $t1, after
+	li $t2, 5
+	sw $t2, platformLength
+	
+	after:
 	
 	lui $a0, 0xffff #If the value at this address is non zero, currently a button is being pressed
 	lw $t5, 0($a0)
@@ -178,17 +246,16 @@ WHILE:	#find sequence location
 	bnez $t5, MOVE
 	
 	
-	lui $a0, 0xffff
-	lw $t5, 0($a0)
 	
 	
 	li $v0, 1
-	add $a0, $t5, $zero
-	#syscall
+	lw $t0, platformCount
+	add $a0, $t0, $zero
+	syscall
 	
 	li $v0, 4
 	la $a0, newLine
-	#syscall
+	syscall
 	
 	
 	j START
@@ -287,6 +354,10 @@ RIGHT:
     jr $ra
 
 UP:
+    lw $t1, highestPlatform
+    addi $t1, $t1, 1
+    sw $t1, highestPlatform
+	
     li $t1, 32
     
     la $t2, p1
